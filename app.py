@@ -19,6 +19,11 @@ dictConfig({
     }
 })
 
+def preprocess_tuples(data: list):
+    header = list(data[0].keys())
+    rows = list(map(lambda x:list(x.values()), data))
+    return {"header":header, "rows":rows}
+
 app = Flask(__name__)
 
 db_creds_path = "db_creds.json"
@@ -46,12 +51,11 @@ def index():
 
 @app.route("/allBrands")
 def all_brands():
-    all_brands = [{"name":""}]
     cursor = connection.cursor()
     cursor.callproc("all_brands")
     all_brands = cursor.fetchall()
     app.logger.info("'/allBrands' fetched {} brands".format(cursor.rowcount))
-    return render_template("brands.html", data=all_brands)
+    return render_template("brands.html", data=preprocess_tuples(all_brands))
     
 
 

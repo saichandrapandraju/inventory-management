@@ -2,11 +2,15 @@
 {% block main %}
     <table>
         <tr>
-            <th>BRAND</th>
+            {% for column in data["header"] %}
+            <th>{{column}}</th>
+            {% endfor %}
         </tr>
-        {% for item in data %}
+        {% for item in data["rows"] %}
         <tr>
-            <td>{{item["name"]}}</td>
+            {% for cell in item %}
+            <td>{{cell}}</td>
+            {% endfor %}
         </tr>
         {% endfor %}
     </table>

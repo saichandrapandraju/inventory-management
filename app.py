@@ -1,6 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from logging.config import dictConfig
 import re, json
 from pymysql import connect, cursors
+
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+    }},
+    'handlers': {'wsgi': {
+        'class': 'logging.StreamHandler',
+        'stream': 'ext://flask.logging.wsgi_errors_stream',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'INFO',
+        'handlers': ['wsgi']
+    }
+})
 
 app = Flask(__name__)
 
@@ -17,8 +34,9 @@ try:
         charset="utf8mb4",
         cursorclass=cursors.DictCursor
     )
+    app.logger.info("Successfully connected to '{}' database".format(db_creds.get("database")))
 except Exception as e:
-    print(e)
+    app.logger.exception(e)
 
 
 @app.route("/")
@@ -32,6 +50,7 @@ def all_brands():
     cursor = connection.cursor()
     cursor.callproc("all_brands")
     all_brands = cursor.fetchall()
+    app.logger.info("'/allBrands' fetched {} brands".format(cursor.rowcount))
     return render_template("brands.html", data=all_brands)
     
 

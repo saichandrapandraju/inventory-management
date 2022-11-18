@@ -54,10 +54,16 @@ def all_brands():
     cursor = connection.cursor()
     cursor.callproc("all_brands")
     all_brands = cursor.fetchall()
-    app.logger.info("'/allBrands' fetched {} brands".format(cursor.rowcount))
+    app.logger.info("'/allBrands' fetched {} brand(s)".format(cursor.rowcount))
     return render_template("brands.html", data=preprocess_tuples(all_brands))
     
-
+@app.route("/allEmployees")
+def all_employees():
+    cursor = connection.cursor()
+    cursor.callproc("all_employees")
+    all_employees = cursor.fetchall()
+    app.logger.info("'/allEmployees' fetched {} employee(s)".format(cursor.rowcount))
+    return render_template("employees.html", data=preprocess_tuples(all_employees))
 
 
 

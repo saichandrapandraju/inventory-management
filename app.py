@@ -66,10 +66,28 @@ def all_employees():
     return render_template("employees.html", data=preprocess_tuples(all_employees))
 
 
+# @app.route("/allCategories")
+# def all_categories():
+#     cursor = connection.cursor()
+#     cursor.callproc("all_categories")
+#     all_categories = cursor.fetchall()
+#     app.logger.info("'/allCategories' fetched {} categories".format(cursor.rowcount))
+#     return render_template("categories.html", data=preprocess_tuples(all_categories))
 
-
-
-
+@app.route("/category", methods=['POST','GET'])
+def create_category():
+    cursor = connection.cursor()
+    if request.method=="POST":
+        name_ = request.form['name']
+        desc_ = request.form['description']
+        cursor.callproc("create_category", args=[name_, desc_])
+        result = cursor.fetchall()
+        connection.commit()
+        app.logger.info(result)
+    cursor.callproc("all_categories")
+    all_categories = cursor.fetchall()
+    return render_template("categories.html", data=preprocess_tuples(all_categories))
+    
 
 
 

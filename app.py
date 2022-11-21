@@ -87,9 +87,17 @@ def create_category():
     cursor.callproc("all_categories")
     all_categories = cursor.fetchall()
     return render_template("categories.html", data=preprocess_tuples(all_categories))
-    
 
 
+@app.route("/category/delete/<int:id>")
+def delete_category(id):
+    del_cursor = connection.cursor()
+    del_cursor.callproc('delete_category', args=[id])
+    result = del_cursor.fetchall()
+    connection.commit()
+    del_cursor.close()
+    app.logger.info(result)
+    return result[0]
 
 
 

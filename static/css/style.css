@@ -82,9 +82,9 @@ table.table .form-control {
 table.table .form-control.error {
     border-color: #f50000;
 }
-table.table td .add {
+/* table.table td .add {
     display: none;
-}
+} */
 
 .overlay {
     position: fixed;

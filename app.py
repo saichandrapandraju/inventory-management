@@ -99,6 +99,22 @@ def delete_category(id):
     app.logger.info(result)
     return result[0]
 
+@app.route("/updateCategory", methods=['POST', 'GET'])
+def update_category():
+    cursor = connection.cursor()
+    if request.method=="POST":
+        print(request.form)
+        id_ = request.form['catid']
+        name_ = request.form['name']
+        desc_ = request.form['description']
+        cursor.callproc("update_category", args=[id_, name_, desc_])
+        result = cursor.fetchall()
+        connection.commit()
+        app.logger.info(result)
+    cursor.callproc("all_categories")
+    all_categories = cursor.fetchall()
+    return render_template("categories.html", data=preprocess_tuples(all_categories))
+
 
 
 

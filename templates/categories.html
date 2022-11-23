@@ -7,7 +7,7 @@
 
 {% block main %}
 
-<div id="popup1" class="overlay">
+<div id="newCategory" class="overlay">
     <div class="popup">
         <h2>Please fill out the category details</h2>
         <a class="close" href="#">&times;</a>
@@ -26,9 +26,32 @@
     </div>
 
 </div>
+
+<div id="updateCategory" class="overlay">
+    <div class="popup">
+        <h2>Please update the category details</h2>
+        <a class="close" href="#">&times;</a>
+        <!-- <button id="close" style="float: right;">X</button> -->
+        <div class="content"></div>
+        <form method="post" action="/updateCategory">
+            Id:<br>
+            <input id="categoryId" type="text" name="catid" readonly>
+            <br>
+            Name:<br>
+            <input id="categoryName" type="text" name="name" placeholder="Category name" required>
+            <br>
+            Description:<br>
+            <input id="categoryDescription" type="text" name="description" placeholder="Category description" required>
+            <br><br>
+            <input type="submit" value="update">
+        </form>
+
+    </div>
+
+</div>
 <!-- <a class="button" href="#popup1">Add Category</a> -->
 
-<a class="add-new" href="#popup1"><button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button></a>
+<a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button></a>
 
 <div class="container">
     <div class="table-wrapper">
@@ -58,9 +81,9 @@
                     <td>{{cell}}</td>
                     {% endfor %}
                     <td>
-                        <!-- <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons"></i></a> -->
-                        <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons"></i></a>
-                        <a id= {{item[0]}} class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons"></i></a>
+                        <!-- <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-plus"></i></a> -->
+                        <a class="edit" href="#updateCategory" title="Edit" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                        <a id= {{item[0]}} class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
                 {% endfor %}

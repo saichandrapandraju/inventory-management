@@ -9,4 +9,15 @@ $(document).ready(function () {
               });
         };
     });
+    $('table .edit').click(function() {
+        var tr = $(this).closest('tr');
+        var id = tr.children('td:eq(0)').text();
+        var name = tr.children('td:eq(1)').text();
+        var desc = tr.children('td:eq(2)').text();
+
+        // console.log(id, name, desc);
+        $('#categoryId').val(id);
+        $('#categoryName').val(name);
+        $('#categoryDescription').val(desc);
+      });
 });

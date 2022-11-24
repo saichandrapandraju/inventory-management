@@ -32,6 +32,19 @@
     </div>
 
     <div class="main">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="success-popup" id="timeout">
+                    <div class="alert alert-success">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+    
+        
         <button class="navopenbtn" onclick="openNav()">☰</button> 
         <h1 style="text-align: center;">WELCOME!!</h1>
         {% block main %}
@@ -39,6 +52,9 @@
     </div>
 
     <script>
+        setTimeout(function() {
+            $('#timeout').fadeOut('fast');
+        }, 1500);
         function openNav() {
           document.getElementById("sidebar").style.width = "250px";
           document.getElementById("main").style.marginLeft = "250px";

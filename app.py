@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from logging.config import dictConfig
 import re, json
 from pymysql import connect, cursors
@@ -66,14 +66,6 @@ def all_employees():
     return render_template("employees.html", data=preprocess_tuples(all_employees))
 
 
-# @app.route("/allCategories")
-# def all_categories():
-#     cursor = connection.cursor()
-#     cursor.callproc("all_categories")
-#     all_categories = cursor.fetchall()
-#     app.logger.info("'/allCategories' fetched {} categories".format(cursor.rowcount))
-#     return render_template("categories.html", data=preprocess_tuples(all_categories))
-
 @app.route("/category", methods=['POST','GET'])
 def create_category():
     cursor = connection.cursor()
@@ -83,6 +75,7 @@ def create_category():
         cursor.callproc("create_category", args=[name_, desc_])
         result = cursor.fetchall()
         connection.commit()
+        flash(result[0]['response'])
         app.logger.info(result)
     cursor.callproc("all_categories")
     all_categories = cursor.fetchall()
@@ -95,6 +88,7 @@ def delete_category(id):
     del_cursor.callproc('delete_category', args=[id])
     result = del_cursor.fetchall()
     connection.commit()
+    flash(result[0]['response'])
     del_cursor.close()
     app.logger.info(result)
     return result[0]
@@ -110,6 +104,7 @@ def update_category():
         cursor.callproc("update_category", args=[id_, name_, desc_])
         result = cursor.fetchall()
         connection.commit()
+        flash(result[0]['response'])
         app.logger.info(result)
     cursor.callproc("all_categories")
     all_categories = cursor.fetchall()
@@ -123,4 +118,5 @@ def update_category():
 
 
 if __name__=="__main__":
+    app.secret_key = '1234567890saichandrapandrajusairamasishmadiraju'
     app.run(host="localhost", port=8080, debug=True)

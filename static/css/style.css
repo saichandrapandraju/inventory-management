@@ -2,6 +2,14 @@ body {
     color: #404E67;
     background: #F5F7FA;
     font-family: 'Open Sans', sans-serif;
+    overflow: hidden;
+}
+
+/* alert msg css */
+.success-popup {
+    text-align: center;
+    position: fixed;
+    right: 0;
 }
 
 /* side nav css */

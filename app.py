@@ -57,13 +57,54 @@ def all_brands():
     app.logger.info("'/allBrands' fetched {} brand(s)".format(cursor.rowcount))
     return render_template("brands.html", data=preprocess_tuples(all_brands))
     
-@app.route("/allEmployees")
-def all_employees():
+@app.route("/employee", methods=['POST','GET'])
+def create_employee():
     cursor = connection.cursor()
+    if request.method=="POST":
+        finame_ = request.form['finame']
+        lname_ = request.form['lname']
+        add_ = request.form['address']
+        type_ = request.form['type']
+        phone_ = request.form['phone']
+        ssn_ = request.form['ssn']
+        cursor.callproc("create_employee", args=[finame_, lname_, add_, type_, phone_, ssn_])
+        result = cursor.fetchall()
+        connection.commit()
+        flash(result[0]['response'])
+        app.logger.info(result)
     cursor.callproc("all_employees")
     all_employees = cursor.fetchall()
-    app.logger.info("'/allEmployees' fetched {} employee(s)".format(cursor.rowcount))
     return render_template("employees.html", data=preprocess_tuples(all_employees))
+
+
+@app.route("/employee/delete/<int:id>")
+def delete_employee(id):
+    del_cursor = connection.cursor()
+    del_cursor.callproc('delete_employee', args=[id])
+    result = del_cursor.fetchall()
+    connection.commit()
+    flash(result[0]['response'])
+    del_cursor.close()
+    app.logger.info(result)
+    return result[0]
+
+@app.route("/updateEmployee", methods=['POST', 'GET'])
+def update_employee():
+    cursor = connection.cursor()
+    if request.method=="POST":
+        id_ = request.form['empid']
+        add_ = request.form['address']
+        type_ = request.form['type']
+        phone_ = request.form['phone']
+        cursor.callproc("update_employee", args=[id_, add_, type_, phone_])
+        result = cursor.fetchall()
+        connection.commit()
+        flash(result[0]['response'])
+        app.logger.info(result)
+    cursor.callproc("all_employees")
+    all_employees = cursor.fetchall()
+    return render_template("employees.html", data=preprocess_tuples(all_employees))
+
 
 
 @app.route("/category", methods=['POST','GET'])
@@ -97,7 +138,6 @@ def delete_category(id):
 def update_category():
     cursor = connection.cursor()
     if request.method=="POST":
-        print(request.form)
         id_ = request.form['catid']
         name_ = request.form['name']
         desc_ = request.form['description']

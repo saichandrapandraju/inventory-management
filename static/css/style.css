@@ -2,7 +2,7 @@ body {
     color: #404E67;
     background: #F5F7FA;
     font-family: 'Open Sans', sans-serif;
-    overflow: hidden;
+    
 }
 
 /* alert msg css */
@@ -74,7 +74,7 @@ body {
 /* Table css */
 .table-wrapper {
     width: fit-content;
-    margin: 30px auto;
+    margin: 45px auto;
     background: #fff;
     padding: 0px 20px 20px 20px;	
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
@@ -218,21 +218,11 @@ table.table .form-control.error {
     overflow: auto;
   }
 
-  /* .add-new {
-    float: right;
-    margin-right: 2em;
-  } */
-
-/* .button {
-    font-size: 1em;
-    padding: 10px;
-    color: rgb(0, 0, 0);
-    border: 2px solid #000000;
-    border-radius: 20px/50px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease-out;
-  }
-  .button:hover {
-    background: #000000;
-  } */
+/* Chart CSS */
+.chart {
+  width: 500px;
+  height: 500px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

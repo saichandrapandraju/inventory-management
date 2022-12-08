@@ -16,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     {% block js %}
     {% endblock %}
 
@@ -26,8 +27,9 @@
     <div id="sidebar" class="sidenav">
         <a href="javascript:void(0)" class="navclosebtn" onclick="closeNav()">×</a>
         <a href="/employee">Employees</a>
-        <a href="/allBrands">Brands</a>
+        <a href="/supplier">Suppliers</a>
         <a href="/category">Categories</a>
+        <a href="/analytics">Analytics</a>
         <!-- <a href="#contact">Contact</a> -->
     </div>
 
@@ -46,7 +48,7 @@
     
         
         <button class="navopenbtn" onclick="openNav()">☰</button> 
-        <h1 style="text-align: center;">WELCOME!!</h1>
+        <h1 style="text-align: center; padding-bottom: 3rem;">WELCOME!!</h1>
         {% block main %}
         {% endblock %}
     </div>

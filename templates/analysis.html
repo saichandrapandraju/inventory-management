@@ -1,0 +1,149 @@
+{% extends 'index.html' %}
+
+{% block js %}
+<!-- <script src="../static/js/analysis.js"></script> -->
+{% endblock %}
+
+
+{% block main %}
+<div style="display:flex">
+  <div style="width: 50%;">
+    <div class="chart">
+      <canvas id="chart1" width="400px" height="400px"></canvas>
+    </div>
+  </div>
+
+  <div style="width: 50%;">
+    <div class="chart">
+      <canvas id="chart4" width="400px" height="400px"></canvas>
+    </div>
+  </div>
+
+
+</div>
+<br><br><br><br>
+<div style="display:flex">
+  <div style="width: 50%;">
+    <div class="chart">
+      <canvas id="chart3" width="400px" height="400px"></canvas>
+    </div>
+  </div>
+
+  <div style="width: 50%;">
+    <div class="chart">
+      <canvas id="chart2" width="400px" height="400px"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+  var high_sales_colors = [];
+  var low_sales_colors = [];
+  var low_stock_colors = [];
+  var all_data = {{ data| tojson}};
+  var high_sales = all_data["high_sales"];
+  var low_sales = all_data["low_sales"];
+  var low_stock = all_data["low_stock_products"];
+  var high_sale_product_trend = all_data["high_sale_product_trend"];
+
+  for (let i = 0; i < high_sales["labels"].length; i++) {
+    high_sales_colors.push('#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6))
+  }
+  for (let i = 0; i < low_sales["labels"].length; i++) {
+    low_sales_colors.push('#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6))
+  }
+  for (let i = 0; i < low_stock["labels"].length; i++) {
+    low_stock_colors.push('#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6))
+  }
+  new Chart(document.getElementById("chart1"), {
+    type: 'bar',
+    data: {
+      labels: high_sales["labels"],
+      datasets: [
+        {
+          label: "Sales",
+          backgroundColor: high_sales_colors,
+          data: high_sales["values"]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Products with high sales'
+      }
+    }
+  });
+
+  new Chart(document.getElementById("chart2"), {
+    type: 'bar',
+    data: {
+      labels: low_sales["labels"],
+      datasets: [
+        {
+          label: "Sales",
+          backgroundColor: low_sales_colors,
+          data: low_sales["values"],
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Products with low sales'
+      }
+    }
+  });
+
+  new Chart(document.getElementById("chart3"), {
+    type: 'polarArea',
+    data: {
+      labels: low_stock["labels"],
+      datasets: [
+        {
+          label: "Sales",
+          backgroundColor: low_stock_colors,
+          data: low_stock["values"]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Products with less stock(<100)'
+      }
+    }
+  });
+
+
+  new Chart(document.getElementById("chart4"), {
+    type: 'line',
+    data: {
+      labels: high_sale_product_trend["labels"],
+      datasets: [
+        {
+          label: "Sales",
+          data: high_sale_product_trend["values"],
+          fill: true,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Trend of highest sold product'
+      },
+    }
+  });
+
+</script>
+
+{% endblock %}

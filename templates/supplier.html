@@ -1,24 +1,27 @@
 {% extends 'index.html' %}
 
 {% block js %}
-<script src="../static/js/brand.js"></script>
+<script src="../static/js/supplier.js"></script>
 {% endblock %}
 
 
 {% block main %}
 
-<div id="newCategory" class="overlay">
+<div id="newSupplier" class="overlay">
     <div class="popup">
-        <h3>Please fill out the brand details</h3>
+        <h3>Please fill out the supplier details</h3>
         <a class="close" href="#">&times;</a>
         <!-- <button id="close" style="float: right;">X</button> -->
         <div class="content"></div>
-        <form method="post" action="/brand">
+        <form method="post" action="/supplier">
             Name:<br>
-            <input type="text" name="name" placeholder="Category name" required>
+            <input type="text" name="name" placeholder="Supplier name" required>
             <br>
-            Description:<br>
-            <input type="text" name="description" placeholder="Category description" required>
+            Phone:<br>
+            <input type="text" name="phone" placeholder="Supplier Phone" required>
+            <br>
+            Address:<br>
+            <input type="text" name="address" placeholder="Supplier Address" required>
             <br><br>
             <input type="submit" value="Submit">
         </form>
@@ -27,21 +30,24 @@
 
 </div>
 
-<div id="updateCategory" class="overlay">
+<div id="updateSupplier" class="overlay">
     <div class="popup">
-        <h3>Please update the category details</h3>
+        <h3>Please update the supplier details</h3>
         <a class="close" href="#">&times;</a>
         <!-- <button id="close" style="float: right;">X</button> -->
         <div class="content"></div>
-        <form method="post" action="/updateCategory">
+        <form method="post" action="/updateSupplier">
             Id:<br>
-            <input id="categoryId" type="text" name="catid" readonly>
+            <input id="supplierId" type="text" name="supid" readonly>
             <br>
             Name:<br>
-            <input id="categoryName" type="text" name="name" placeholder="Category name" required>
+            <input id="supplierName" type="text" name="name" placeholder="Supplier name" required>
             <br>
-            Description:<br>
-            <input id="categoryDescription" type="text" name="description" placeholder="Category description" required>
+            Phone:<br>
+            <input id="supplierPhone" type="text" name="phone" placeholder="Supplier phone" required>
+            <br>
+            Address:<br>
+            <input id="supplierAddress" type="text" name="address" placeholder="Supplier address" required>
             <br><br>
             <input type="submit" value="update">
         </form>
@@ -57,10 +63,10 @@
     <div class="table-wrapper">
         <div class="title-row">
             <div class="title">
-                <h3><b>Category Details</b></h3>
+                <h3><b>Supplier Details</b></h3>
             </div>
             <div class="add-new">
-                <a href="#newCategory"><button type="button" class="btn btn-info add-new">
+                <a href="#newSupplier"><button type="button" class="btn btn-info add-new">
                         <i class="fa fa-plus"></i> Add New</button></a></div>
             <!-- <a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new">
                 <i class="fa fa-plus"></i> Add New</button></a> -->
@@ -88,12 +94,13 @@
             <tbody>
                 {% for item in data["rows"] %}
                 <tr>
-                    {% for cell in item %}
+                    <td><a href="/supplier/{{item[0]}}">{{item[0]}}</a></td>
+                    {% for cell in item[1:] %}
                     <td>{{cell}}</td>
                     {% endfor %}
                     <td>
                         <!-- <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-plus"></i></a> -->
-                        <a class="edit" href="#updateCategory" title="Edit" data-toggle="tooltip"><i
+                        <a class="edit" href="#updateSupplier" title="Edit" data-toggle="tooltip"><i
                                 class="fa fa-pencil"></i></a>
                         <a id={{item[0]}} class="delete" title="Delete" data-toggle="tooltip"><i
                                 class="fa fa-trash"></i></a>
@@ -104,5 +111,8 @@
         </table>
     </div>
 </div>
+
+
+
 
 {% endblock %}

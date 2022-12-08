@@ -1,0 +1,159 @@
+{% extends 'index.html' %}
+
+{% block js %}
+<script src="../static/js/supplier_detail.js"></script>
+{% endblock %}
+
+
+{% block main %}
+
+<div id="newOrder" class="overlay">
+    <div class="popup">
+        <h3>Please fill out the order details</h3>
+        <a class="close" href="#">&times;</a>
+        <div class="content"></div>
+        <form method="post" action="/supplier/{{data['sup_id']}}">
+            <label for="product">Product:</label>
+            <br>
+            <select name="product" id="product">
+                <!-- <option value=0>--Select--</option> -->
+                {% if data["all_products"]["rows"] | length >0%}
+                    {% for item in data["all_products"]["rows"] %}
+                    <option value={{item[0]}}>{{item[1]}}</option>
+                    {% endfor%}
+                {% endif %}
+            </select>
+            <br>
+            Quantity:<br>
+            <input id="quantity" type="number" name="quantity">
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+<!-- 
+<div id="updateSupplier" class="overlay">
+    <div class="popup">
+        <h3>Please update the supplier details</h3>
+        <a class="close" href="#">&times;</a>
+        <div class="content"></div>
+        <form method="post" action="/updateSupplier">
+            Id:<br>
+            <input id="supplierId" type="text" name="supid" readonly>
+            <br>
+            Name:<br>
+            <input id="supplierName" type="text" name="name" placeholder="Supplier name" required>
+            <br>
+            Phone:<br>
+            <input id="supplierPhone" type="text" name="phone" placeholder="Supplier phone" required>
+            <br>
+            Address:<br>
+            <input id="supplierAddress" type="text" name="address" placeholder="Supplier address" required>
+            <br><br>
+            <input type="submit" value="update">
+        </form>
+
+    </div>
+
+</div> -->
+<!-- <a class="button" href="#popup1">Add Category</a> -->
+
+<!-- <a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button></a> -->
+<div class="add-new" style="float: right; padding-right: 20rem; ">
+    <a href="#newOrder"><button type="button" class="btn btn-info add-new">
+            <i class="fa fa-plus"></i> New Order</button></a>
+</div>
+
+<div class="container">
+    <div class="table-wrapper">
+        <div class="title-row">
+            <div class="title">
+                <h3><b>Past Orders</b></h3>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        {% if data["settled"]["header"] | length >0 %}
+                        {% for column in data["settled"]["header"][1:] %}
+                        <th>{{column}}</th>
+                        {% endfor %}
+                        {% else %}
+                        <th>--------NONE--------</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- {% if data["settled"]["rows"] | length >0 %} -->
+                    {% for item in data["settled"]["rows"] %}
+                    <tr>
+                        {% for cell in item[1:] %}
+                        <td>{{cell}}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                    <!-- {% else %}
+                    <h3>--------NONE--------</h3>
+                {% endif %} -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="title-row">
+                <div class="title">
+                    <h3><b>Pending Orders</b></h3>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        {% if data["pending"]["header"] | length >0 %}
+                            {% for column in data["pending"]["header"][1:] %}
+                            <th>{{column}}</th>
+                            {% endfor %}
+                        <th>Approve</th>
+                        {% else %}
+                        <th>--------NONE--------</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- {% if data["pending"]["rows"] | length >0 %} -->
+                    {% for item in data["pending"]["rows"] %}
+                    <tr>
+                        {% for cell in item[1:] %}
+                        <td>{{cell}}</td>
+                        {% endfor %}
+                    <td><button id={{item[0]}} class="settle"><i class="fa fa-check" aria-hidden="true" style="color: green;"></i> Settle</button></td>
+
+                    </tr>
+                    {% endfor %}
+                    
+                    <!-- {% else %}
+                    <h3>--------NONE--------</h3>
+                {% endif %} -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        var all_data = {{data|tojson}};
+        var sid = all_data["sup_id"];
+        document.querySelectorAll('.settle').forEach(each => {
+            // for each one, attach an eventlistener of onclick
+            each.onclick = () => {
+                var body = {"purchase_id": each.id};
+                // send request to your backend delete url
+                fetch("/supplier/settle/" + each.id, {
+                }).then(function(){
+                    window.location.href = '/supplier/'+sid;
+                });
+            };
+        });
+    </script>
+
+
+    {% endblock %}

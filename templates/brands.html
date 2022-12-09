@@ -6,8 +6,10 @@
 
 
 {% block main %}
+<h1 style="text-align: center;">Manage Brands</h1>
 
-<div id="newCategory" class="overlay">
+
+<div id="newBrand" class="overlay">
     <div class="popup">
         <h3>Please fill out the brand details</h3>
         <a class="close" href="#">&times;</a>
@@ -15,10 +17,7 @@
         <div class="content"></div>
         <form method="post" action="/brand">
             Name:<br>
-            <input type="text" name="name" placeholder="Category name" required>
-            <br>
-            Description:<br>
-            <input type="text" name="description" placeholder="Category description" required>
+            <input type="text" name="name" placeholder="Brand name" required>
             <br><br>
             <input type="submit" value="Submit">
         </form>
@@ -27,21 +26,18 @@
 
 </div>
 
-<div id="updateCategory" class="overlay">
+<div id="updateBrand" class="overlay">
     <div class="popup">
-        <h3>Please update the category details</h3>
+        <h3>Please update the brand details</h3>
         <a class="close" href="#">&times;</a>
         <!-- <button id="close" style="float: right;">X</button> -->
         <div class="content"></div>
-        <form method="post" action="/updateCategory">
-            Id:<br>
-            <input id="categoryId" type="text" name="catid" readonly>
+        <form method="post" action="/updateBrand">
+            Current Name:<br>
+            <input id="brandName" type="text" name="oldname" placeholder="Brand name" readonly>
             <br>
-            Name:<br>
-            <input id="categoryName" type="text" name="name" placeholder="Category name" required>
-            <br>
-            Description:<br>
-            <input id="categoryDescription" type="text" name="description" placeholder="Category description" required>
+            New Name:<br>
+            <input id="newbrandName" type="text" name="newname" placeholder="New Brand name" required>
             <br><br>
             <input type="submit" value="update">
         </form>
@@ -49,40 +45,33 @@
     </div>
 
 </div>
-<!-- <a class="button" href="#popup1">Add Category</a> -->
-
-<!-- <a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button></a> -->
-
+<div class="add-new" style="float: right; padding-right: 20rem; ">
+    <a href="#newBrand"><button type="button" class="btn btn-info add-new">
+        <i class="fa fa-plus"></i> Add New</button></a>
+</div>
 <div class="container">
     <div class="table-wrapper">
         <div class="title-row">
             <div class="title">
-                <h3><b>Category Details</b></h3>
+                <h3><b>Brand Details</b></h3>
             </div>
+            
             <div class="add-new">
-                <a href="#newCategory"><button type="button" class="btn btn-info add-new">
-                        <i class="fa fa-plus"></i> Add New</button></a></div>
-            <!-- <a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new">
-                <i class="fa fa-plus"></i> Add New</button></a> -->
+                <input type="text" class="add-new" style="width: 17rem;" id="searchInput" onkeyup="filter()" placeholder="Search by brand name...">
+            </div>
         </div>
 
-        <!-- <div class="table-title">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h2><b>Category Details</b></h2>
-                </div>
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
-                </div>
-            </div>
-        </div> -->
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="table">
             <thead>
                 <tr>
-                    {% for column in data["header"] %}
-                    <th>{{column}}</th>
-                    {% endfor %}
-                    <th>Actions</th>
+                    {% if data["header"] | length >0 %}
+                        {% for column in data["header"] %}
+                        <th>{{column}}</th>
+                        {% endfor %}
+                        <th>Actions</th>
+                    {% else %}
+                        <th>--------NONE--------</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -93,7 +82,7 @@
                     {% endfor %}
                     <td>
                         <!-- <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-plus"></i></a> -->
-                        <a class="edit" href="#updateCategory" title="Edit" data-toggle="tooltip"><i
+                        <a class="edit" href="#updateBrand" title="Edit" data-toggle="tooltip"><i
                                 class="fa fa-pencil"></i></a>
                         <a id={{item[0]}} class="delete" title="Delete" data-toggle="tooltip"><i
                                 class="fa fa-trash"></i></a>
@@ -104,5 +93,29 @@
         </table>
     </div>
 </div>
+
+<script>
+    function filter() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("table");
+      tr = table.getElementsByTagName("tr");
+    
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    </script>
+
+
 
 {% endblock %}

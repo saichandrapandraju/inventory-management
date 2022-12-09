@@ -163,6 +163,146 @@ def update_category():
     return render_template("categories.html", data=preprocess_tuples(all_categories))
 
 
+@app.route("/brand", methods=['POST','GET'])
+def create_brand():
+    cursor = connection.cursor()
+    if request.method=="POST":
+        name_ = request.form['name']
+        cursor.callproc("create_brand", args=[name_])
+        result = cursor.fetchall()
+        connection.commit()
+        flash(result[0]['response'])
+        app.logger.info(result)
+    cursor.callproc("all_brands")
+    all_brands = cursor.fetchall()
+    return render_template("brands.html", data=preprocess_tuples(all_brands))
+
+
+@app.route("/brand/delete/<brand>")
+def delete_brand(brand):
+    del_cursor = connection.cursor()
+    del_cursor.callproc('delete_brand', args=[brand])
+    result = del_cursor.fetchall()
+    connection.commit()
+    flash(result[0]['response'])
+    del_cursor.close()
+    app.logger.info(result)
+    return result[0]
+
+@app.route("/updateBrand", methods=['POST', 'GET'])
+def update_brand():
+    cursor = connection.cursor()
+    if request.method=="POST":
+        oldname_ = request.form['oldname']
+        newname_ = request.form['newname']
+        cursor.callproc("rename_brand", args=[oldname_, newname_])
+        result = cursor.fetchall()
+        connection.commit()
+        flash(result[0]['response'])
+        app.logger.info(result)
+    cursor.callproc("all_brands")
+    all_brands = cursor.fetchall()
+    return render_template("brands.html", data=preprocess_tuples(all_brands))
+
+
+@app.route("/product", methods=['POST','GET'])
+def create_product():
+    cursor = connection.cursor()
+    if request.method=="POST":
+        name = request.form['name']
+        price = request.form['price']
+        description = request.form['description']
+        quantity = request.form['quantity']
+        man_date = request.form['man_date']
+        exp_date = request.form['exp_date']
+        location = request.form['location']
+        brand = request.form['brand']
+        category = request.form['category']
+        supplier = request.form['supplier']
+        cursor.callproc("create_product", args=[name, price, description, quantity, man_date, exp_date, location, brand, category, supplier])
+        result = cursor.fetchall()
+        connection.commit()
+        flash(result[0]['response'])
+        app.logger.info(result)
+        
+    cursor.callproc("all_brands")
+    all_brands = cursor.fetchall()
+    connection.commit()
+    app.logger.info(all_brands)
+    
+    cursor.callproc("all_categories")
+    all_categories = cursor.fetchall()
+    connection.commit()
+    app.logger.info(all_categories)
+    
+    cursor.callproc("all_suppliers")
+    all_suppliers = cursor.fetchall()
+    connection.commit()
+    app.logger.info(all_suppliers)
+    
+    cursor.callproc("all_products")
+    all_products = cursor.fetchall()
+    connection.commit()
+    app.logger.info(all_products)
+    return render_template("products.html", data={"all_brands":preprocess_tuples(all_brands), "all_categories":preprocess_tuples(all_categories), "all_suppliers":preprocess_tuples(all_suppliers), "all_products":preprocess_tuples(all_products)})
+
+
+@app.route("/product/delete/<int:id>")
+def delete_product(id):
+    del_cursor = connection.cursor()
+    del_cursor.callproc('delete_product', args=[id])
+    result = del_cursor.fetchall()
+    connection.commit()
+    flash(result[0]['response'])
+    del_cursor.close()
+    app.logger.info(result)
+    return result[0]
+
+@app.route("/updateProduct", methods=['POST', 'GET'])
+def update_product():
+    cursor = connection.cursor()
+    if request.method=="POST":
+        id_ = request.form['productid']
+        name = request.form['name']
+        price = request.form['price']
+        description = request.form['description']
+        quantity = request.form['quantity']
+        man_date = request.form['man_date']
+        exp_date = request.form['exp_date']
+        location = request.form['location']
+        brand = request.form['brand']
+        category = request.form['category']
+        supplier = request.form['supplier']
+        cursor.callproc("update_product", args=[int(id_), name, price, description, quantity, man_date, exp_date, location, brand, category, supplier])
+        result = cursor.fetchall()
+        connection.commit()
+        flash(result[0]['response'])
+        app.logger.info(result)
+        
+    cursor.callproc("all_brands")
+    all_brands = cursor.fetchall()
+    connection.commit()
+    app.logger.info(all_brands)
+    
+    cursor.callproc("all_categories")
+    all_categories = cursor.fetchall()
+    connection.commit()
+    app.logger.info(all_categories)
+    
+    cursor.callproc("all_suppliers")
+    all_suppliers = cursor.fetchall()
+    connection.commit()
+    app.logger.info(all_suppliers)
+    
+    cursor.callproc("all_products")
+    all_products = cursor.fetchall()
+    connection.commit()
+    app.logger.info(all_products)
+    return render_template("products.html", data={"all_brands":preprocess_tuples(all_brands), "all_categories":preprocess_tuples(all_categories), "all_suppliers":preprocess_tuples(all_suppliers), "all_products":preprocess_tuples(all_products)})
+
+
+
+
 @app.route("/supplier", methods=['POST','GET'])
 def create_supplier():
     cursor = connection.cursor()
@@ -191,10 +331,10 @@ def detail_supplier(id):
         connection.commit()
         flash(result[0]['response'])
         app.logger.info(result)
-    cursor.callproc("supplier_orders_settled", args=[id])
-    result_settled = cursor.fetchall()
+    cursor.callproc("supplier_past_orders", args=[id])
+    result_past_orders = cursor.fetchall()
     connection.commit()
-    app.logger.info(result_settled)
+    app.logger.info(result_past_orders)
     
     cursor.callproc("supplier_orders_active", args=[id])
     result_active = cursor.fetchall()
@@ -206,7 +346,7 @@ def detail_supplier(id):
     connection.commit()
     app.logger.info(all_products)
     
-    return render_template("supplier_detail.html", data={"sup_id":id,"settled":preprocess_tuples(result_settled), "pending":preprocess_tuples(result_active), "all_products":preprocess_tuples(all_products)})
+    return render_template("supplier_detail.html", data={"sup_id":id,"past_orders":preprocess_tuples(result_past_orders), "pending":preprocess_tuples(result_active), "all_products":preprocess_tuples(all_products)})
 
 @app.route("/supplier/delete/<int:id>")
 def delete_supplier(id):
@@ -228,6 +368,19 @@ def settle_supplier_order(id):
     connection.commit()
     flash(result[0]['response'])
     settle_cursor.close()
+    app.logger.info(result)
+    print(result)
+    return result[0]
+
+@app.route("/supplier/cancel/<int:id>")
+def cancel_supplier_order(id):
+    cancel_cursor = connection.cursor()
+    # if request.method=="POST":
+    cancel_cursor.callproc('cancel_order', args=[id])
+    result = cancel_cursor.fetchall()
+    connection.commit()
+    flash(result[0]['response'])
+    cancel_cursor.close()
     app.logger.info(result)
     print(result)
     return result[0]

@@ -6,6 +6,9 @@
 
 
 {% block main %}
+
+<h1 style="text-align: center; padding-bottom: 3rem;">Product Analytics</h1>
+
 <div style="display:flex">
   <div style="width: 50%;">
     <div class="chart">
@@ -73,13 +76,13 @@
       legend: { display: false },
       title: {
         display: true,
-        text: 'Products with high sales'
+        text: 'Products with high sales (Top 5)'
       }
     }
   });
 
   new Chart(document.getElementById("chart2"), {
-    type: 'bar',
+    type: 'pie',
     data: {
       labels: low_sales["labels"],
       datasets: [
@@ -91,10 +94,10 @@
       ]
     },
     options: {
-      legend: { display: false },
+      legend: { display: true },
       title: {
         display: true,
-        text: 'Products with low sales'
+        text: 'Products with low sales (Lowest 5)'
       }
     }
   });

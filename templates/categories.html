@@ -7,6 +7,9 @@
 
 {% block main %}
 
+
+<h1 style="text-align: center;">Manage Categories</h1>
+
 <div id="newCategory" class="overlay">
     <div class="popup">
         <h3>Please fill out the category details</h3>
@@ -49,10 +52,10 @@
     </div>
 
 </div>
-<!-- <a class="button" href="#popup1">Add Category</a> -->
-
-<!-- <a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button></a> -->
-
+<div class="add-new" style="float: right; padding-right: 20rem; ">
+    <a href="#newCategory"><button type="button" class="btn btn-info add-new">
+        <i class="fa fa-plus"></i> Add New</button></a>
+</div>
 <div class="container">
     <div class="table-wrapper">
         <div class="title-row">
@@ -60,23 +63,11 @@
                 <h3><b>Category Details</b></h3>
             </div>
             <div class="add-new">
-                <a href="#newCategory"><button type="button" class="btn btn-info add-new">
-                        <i class="fa fa-plus"></i> Add New</button></a></div>
-            <!-- <a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new">
-                <i class="fa fa-plus"></i> Add New</button></a> -->
+                <input type="text" class="add-new" style="width: 19rem;" id="searchInput" onkeyup="filter()" placeholder="Search by category name...">
+            </div>
         </div>
 
-        <!-- <div class="table-title">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h2><b>Category Details</b></h2>
-                </div>
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
-                </div>
-            </div>
-        </div> -->
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="table">
             <thead>
                 <tr>
                     {% for column in data["header"] %}
@@ -92,7 +83,6 @@
                     <td>{{cell}}</td>
                     {% endfor %}
                     <td>
-                        <!-- <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-plus"></i></a> -->
                         <a class="edit" href="#updateCategory" title="Edit" data-toggle="tooltip"><i
                                 class="fa fa-pencil"></i></a>
                         <a id={{item[0]}} class="delete" title="Delete" data-toggle="tooltip"><i
@@ -105,7 +95,27 @@
     </div>
 </div>
 
-
+<script>
+    function filter() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("table");
+      tr = table.getElementsByTagName("tr");
+    
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    </script>
 
 
 {% endblock %}

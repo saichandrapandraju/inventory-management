@@ -1,0 +1,210 @@
+{% extends 'index.html' %}
+
+{% block js %}
+<script src="../static/js/product.js"></script>
+{% endblock %}
+
+
+{% block main %}
+
+
+<h1 style="text-align: center;">Manage Products</h1>
+
+<div id="newProduct" class="overlay">
+    <div class="popup">
+        <h3>Please fill out the product details</h3>
+        <a class="close" href="#">&times;</a>
+        <div class="content"></div>
+        <form method="post" action="/product">
+            Name:<br>
+            <input type="text" name="name" placeholder="Product name" required>
+            <br>
+            Price:<br>
+            <input type="number" name="price" placeholder="Product price" required>
+            <br>
+            Description:<br>
+            <input type="text" name="description" placeholder="Product description">
+            <br>
+            Quantity:<br>
+            <input type="number" name="quantity" placeholder="Product quantity" required>
+            <br>
+            Manufacture Date:<br>
+            <input type="date" name="man_date" placeholder="Product manufacture date" required>
+            <br>
+            Expiration Date:<br>
+            <input type="date" name="exp_date" placeholder="Product expiration date">
+            <br>
+            Location:<br>
+            <input type="text" name="location" placeholder="Product location" required>
+            <br>
+            <label for="brand">Brand:</label>
+            <br>
+            <select name="brand" id="brand">
+                {% if data["all_brands"]["rows"] | length >0%}
+                    {% for item in data["all_brands"]["rows"] %}
+                    <option value={{item[0]}}>{{item[0]}}</option>
+                    {% endfor%}
+                {% endif %}
+            </select>
+            <br>
+            <label for="category">Category:</label>
+            <br>
+            <select name="category" id="category">
+                {% if data["all_categories"]["rows"] | length >0%}
+                    {% for item in data["all_categories"]["rows"] %}
+                    <option value={{item[1]}}>{{item[1]}}</option>
+                    {% endfor%}
+                {% endif %}
+            </select>
+            <br>
+            <label for="supplier">Supplier:</label>
+            <br>
+            <select name="supplier" id="supplier">
+                {% if data["all_suppliers"]["rows"] | length >0%}
+                    {% for item in data["all_suppliers"]["rows"] %}
+                    <option value={{item[1]}}>{{item[1]}}</option>
+                    {% endfor%}
+                {% endif %}
+            </select>
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+
+    </div>
+
+</div>
+
+<div id="updateProduct" class="overlay">
+    <div class="popup">
+        <h3>Please update the product details</h3>
+        <a class="close" href="#">&times;</a>
+        <div class="content"></div>
+        <form method="post" action="/updateProduct">
+            Id:<br>
+            <input id="productId" type="text" name="productid" readonly>
+            <br>
+            Name:<br>
+            <input id="productName" type="text" name="name" placeholder="Product name" required>
+            <br>
+            Price:<br>
+            <input id="productPrice" type="number" name="price" placeholder="Product price" required>
+            <br>
+            Description:<br>
+            <input id="productDescription" type="text" name="description" placeholder="Product description" required>
+            <br>
+            Quantity:<br>
+            <input id="productQuantity" type="number" name="quantity" placeholder="Product quantity" required>
+            <br>
+            Manufacture Date:<br>
+            <input id="productManDate" type="date" name="man_date" placeholder="Product manufacture date" required>
+            <br>
+            Expiration Date:<br>
+            <input id="productExpDate" type="date" name="exp_date" placeholder="Product expiration date">
+            <br>
+            Location:<br>
+            <input id="productLocation" type="text" name="location" placeholder="Product location" required>
+            <br>
+            <label for="brand">Brand:</label>
+            <br>
+            <select name="brand" id="productBrand">
+                {% if data["all_brands"]["rows"] | length >0%}
+                    {% for item in data["all_brands"]["rows"] %}
+                    <option value={{item[0]}}>{{item[0]}}</option>
+                    {% endfor%}
+                {% endif %}
+            </select>
+            <br>
+            <label for="category">Category:</label>
+            <br>
+            <select name="category" id="productCategory">
+                {% if data["all_categories"]["rows"] | length >0%}
+                    {% for item in data["all_categories"]["rows"] %}
+                    <option value={{item[1]}}>{{item[1]}}</option>
+                    {% endfor%}
+                {% endif %}
+            </select>
+            <br>
+            <label for="suppliers">Supplier:</label>
+            <br>
+            <select name="supplier" id="productSupplier">
+                {% if data["all_suppliers"]["rows"] | length >0%}
+                    {% for item in data["all_suppliers"]["rows"] %}
+                    <option value={{item[1]}}>{{item[1]}}</option>
+                    {% endfor%}
+                {% endif %}
+            </select>
+            <br><br>
+            <input type="submit" value="update">
+        </form>
+    </div>
+</div>
+<div class="add-new" style="float: right; padding-right: 2rem; ">
+    <a href="#newProduct"><button type="button" class="btn btn-info add-new">
+        <i class="fa fa-plus"></i> Add New</button></a>
+</div>
+<!-- <div class="container"> -->
+    <div class="table-wrapper">
+        <div class="title-row">
+            <div class="title">
+                <h3><b>Product Details</b></h3>
+            </div>
+            <div class="add-new">
+                <input type="text" class="add-new" style="width: 19rem;" id="searchInput" onkeyup="filter()" placeholder="Search by product name...">
+            </div>
+        </div>
+        <table class="table table-bordered" id="table">
+            <thead>
+                <tr>
+                    {% if data["all_products"]["header"] | length >0 %}
+                        {% for column in data["all_products"]["header"] %}
+                        <th>{{column}}</th>
+                        {% endfor %}
+                        <th>Actions</th>
+                    {% else %}
+                        <th>--------NONE--------</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data["all_products"]["rows"] %}
+                <tr>
+                    {% for cell in item %}
+                    <td>{{cell}}</td>
+                    {% endfor %}
+                    <td>
+                        <a class="edit" href="#updateProduct" title="Edit" data-toggle="tooltip"><i
+                                class="fa fa-pencil"></i></a>
+                        <a id={{item[0]}} class="delete" title="Delete" data-toggle="tooltip"><i
+                                class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<!-- </div> -->
+
+<script>
+    function filter() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("table");
+      tr = table.getElementsByTagName("tr");
+    
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    </script>
+
+
+{% endblock %}

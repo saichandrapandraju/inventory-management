@@ -26,11 +26,13 @@
 <body>
     <div id="sidebar" class="sidenav">
         <a href="javascript:void(0)" class="navclosebtn" onclick="closeNav()">×</a>
-        <a href="/employee">Employees</a>
-        <a href="/supplier">Suppliers</a>
+        <a href="/brand">Brands</a>
         <a href="/category">Categories</a>
+        <a href="/product">Products</a>
+        <a href="/supplier">Suppliers</a>
         <a href="/analytics">Analytics</a>
-        <!-- <a href="#contact">Contact</a> -->
+        <a href="/employee">Employees</a>
+        
     </div>
 
     <div class="main">
@@ -48,7 +50,6 @@
     
         
         <button class="navopenbtn" onclick="openNav()">☰</button> 
-        <h1 style="text-align: center; padding-bottom: 3rem;">WELCOME!!</h1>
         {% block main %}
         {% endblock %}
     </div>

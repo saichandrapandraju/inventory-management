@@ -1,0 +1,149 @@
+{% extends 'index.html' %}
+
+{% block js %}
+<script src="../static/js/employee.js"></script>
+{% endblock %}
+
+
+<!-- common(except table-title) for all html -->
+{% block main %}
+<div id="newEmployee" class="overlay">
+    <div class="popup">
+        <h3>Please fill out the Employee details</h3>
+        <a class="close" href="#">&times;</a>
+        <!-- <button id="close" style="float: right;">X</button> -->
+        <div class="content"></div>
+        <form method="post" action="/employee">
+            First Name:<br>
+            <input type="text" name="finame" placeholder="First Name" required>
+            <br><br>
+            Last Name:<br>
+            <input type="text" name="lname" placeholder="Last Name" required>
+            <br><br>
+            Address: <br>
+            <input type="text" name="address" placeholder="Address" required>
+            <br><br>
+            <label for="type">Employee Type:</label>
+            <br>
+            <select name="type" id="type">
+                <option value="Manager">Manager</option>
+                <option value="Worker" selected>Worker</option>
+            </select>
+            <br><br>
+            Phone Number:<br>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <br><br>
+            Social Security Number:<br>
+            <input type="text" name="ssn" placeholder="SSN" required>
+            <br> <br>
+            Email address:<br>
+            <input type="email" name="email" placeholder="Email" required>
+            <br>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+
+    </div>
+
+</div>
+
+<div id="updateEmployee" class="overlay">
+    <div class="popup">
+        <h3>Please update the employee details</h3>
+        <a class="close" href="#">&times;</a>
+        <!-- <button id="close" style="float: right;">X</button> -->
+        <div class="content"></div>
+        <form method="post" action="/updateEmployee">
+            Id:<br>
+            <input id="employeeId" type="text" name="empid" readonly>
+            <br>
+            First Name:<br>
+            <input id="finame" type="text" name="firstname" placeholder="First Name" readonly>
+            <br>
+            Last Name:<br>
+            <input id="lname" type="text" name="lastname" placeholder="Last Name" readonly>
+            <br>
+            Full Name:<br>
+            <input id="funame" type="text" name="fullname" placeholder="Full Name" readonly>
+            <br>
+            Address: <br>
+            <input id="address" type="text" name="address" placeholder="Address" required>
+            <br>
+            <label for="type">Employee Type:</label>
+            <br>
+            <select name="type" id="type">
+                <option value="Manager">Manager</option>
+                <option value="Worker">Worker</option>
+            </select>
+            <br>
+            Phone Number:<br>
+            <input id="phone" type="text" name="phone" placeholder="Phone Number" required>
+            <br>
+            Social Security Number:<br>
+            <input id="ssn" type="text" name="ssn" placeholder="SSN" readonly>
+            <br><br>
+            <input type="submit" value="update">
+        </form>
+
+    </div>
+
+</div>
+<!-- <a class="button" href="#popup1">Add Category</a> -->
+
+<!-- <a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button></a> -->
+
+<div class="container">
+    <div class="table-wrapper">
+        <div class="title-row">
+            <div class="title">
+                <h3><b>Employee Details</b></h3>
+            </div>
+            <div class="add-new">
+                <a href="#newEmployee"><button type="button" class="btn btn-info add-new">
+                        <i class="fa fa-plus"></i> Add New</button></a></div>
+            <!-- <a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new">
+                <i class="fa fa-plus"></i> Add New</button></a> -->
+        </div>
+
+        <!-- <div class="table-title">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h2><b>Category Details</b></h2>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                </div>
+            </div>
+        </div> -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    {% for column in data["header"] %}
+                    <th>{{column}}</th>
+                    {% endfor %}
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data["rows"] %}
+                <tr>
+                    {% for cell in item %}
+                    <td>{{cell}}</td>
+                    {% endfor %}
+                    <td>
+                        <!-- <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-plus"></i></a> -->
+                        <a class="edit" href="#updateEmployee" title="Edit" data-toggle="tooltip"><i
+                                class="fa fa-pencil"></i></a>
+                        <a id={{item[0]}} class="delete" title="Delete" data-toggle="tooltip"><i
+                                class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+{% endblock %}

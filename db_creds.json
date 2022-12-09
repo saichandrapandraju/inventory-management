@@ -1,0 +1,6 @@
+{
+    "host": "localhost",
+    "user": "root",
+    "password": "saidbms",
+    "database": "inventory_management"
+}

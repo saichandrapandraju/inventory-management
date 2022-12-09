@@ -1,0 +1,111 @@
+{% extends 'index.html' %}
+
+{% block js %}
+<script src="../static/js/category.js"></script>
+{% endblock %}
+
+
+{% block main %}
+
+<div id="newCategory" class="overlay">
+    <div class="popup">
+        <h3>Please fill out the category details</h3>
+        <a class="close" href="#">&times;</a>
+        <!-- <button id="close" style="float: right;">X</button> -->
+        <div class="content"></div>
+        <form method="post" action="/category">
+            Name:<br>
+            <input type="text" name="name" placeholder="Category name" required>
+            <br>
+            Description:<br>
+            <input type="text" name="description" placeholder="Category description" required>
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+
+    </div>
+
+</div>
+
+<div id="updateCategory" class="overlay">
+    <div class="popup">
+        <h3>Please update the category details</h3>
+        <a class="close" href="#">&times;</a>
+        <!-- <button id="close" style="float: right;">X</button> -->
+        <div class="content"></div>
+        <form method="post" action="/updateCategory">
+            Id:<br>
+            <input id="categoryId" type="text" name="catid" readonly>
+            <br>
+            Name:<br>
+            <input id="categoryName" type="text" name="name" placeholder="Category name" required>
+            <br>
+            Description:<br>
+            <input id="categoryDescription" type="text" name="description" placeholder="Category description" required>
+            <br><br>
+            <input type="submit" value="update">
+        </form>
+
+    </div>
+
+</div>
+<!-- <a class="button" href="#popup1">Add Category</a> -->
+
+<!-- <a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button></a> -->
+
+<div class="container">
+    <div class="table-wrapper">
+        <div class="title-row">
+            <div class="title">
+                <h3><b>Category Details</b></h3>
+            </div>
+            <div class="add-new">
+                <a href="#newCategory"><button type="button" class="btn btn-info add-new">
+                        <i class="fa fa-plus"></i> Add New</button></a></div>
+            <!-- <a class="add-new" href="#newCategory"><button type="button" class="btn btn-info add-new">
+                <i class="fa fa-plus"></i> Add New</button></a> -->
+        </div>
+
+        <!-- <div class="table-title">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h2><b>Category Details</b></h2>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                </div>
+            </div>
+        </div> -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    {% for column in data["header"] %}
+                    <th>{{column}}</th>
+                    {% endfor %}
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data["rows"] %}
+                <tr>
+                    {% for cell in item %}
+                    <td>{{cell}}</td>
+                    {% endfor %}
+                    <td>
+                        <!-- <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-plus"></i></a> -->
+                        <a class="edit" href="#updateCategory" title="Edit" data-toggle="tooltip"><i
+                                class="fa fa-pencil"></i></a>
+                        <a id={{item[0]}} class="delete" title="Delete" data-toggle="tooltip"><i
+                                class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

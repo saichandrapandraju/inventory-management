@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Inventory Management System</title>
+    <link rel="stylesheet" href="../static/css/style_login.css">
+  </head>
+  <body>
+    <div class="center">
+      <h1>Register</h1>
+      <form method="post", action="/register">
+
+        <div class="txt_field">
+          <input type="text" required  name="register_firstname">
+          <span></span>
+          <label>First name</label>
+        </div>
+
+        <div class="txt_field">
+          <input type="text" required  name="register_lastname">
+          <span></span>
+          <label>Last name</label>
+        </div>
+
+        <div class="txt_field">
+          <input type="text" required name="register_address">
+          <span></span>
+          <label>Address</label>
+        </div>
+
+        <div class="txt_field">
+          <input type="text" required name="register_phone">
+          <span></span>
+          <label>Phone Number</label>
+        </div>
+
+        <div class="txt_field">
+          <input type="text" required name="register_ssn">
+          <span></span>
+          <label>Social Security Number</label>
+        </div>
+
+        <div class="txt_field">
+          <input type="email" required name="register_email">
+          <span></span>
+          <label>Email</label>
+        </div>
+
+        <div class="txt_field">
+          <input type="password" required maxlength="10" name="register_password">
+          <span></span>
+          <label>Password</label>
+        </div>
+        <!-- <div class="pass">Forgot Password?</div> -->
+
+        <input type="submit" value="Register">
+
+        <div class="signup_link">
+          Back to <a href="{{url_for('login')}}">Login</a>
+        </div>
+      </form>
+    </div>
+
+  </body>
+</html>

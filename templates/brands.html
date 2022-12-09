@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+
+{% block js %}
+<script src="../static/js/brand.js"></script>
+{% endblock %}
+
+<!-- common(except table-title) for all html -->
+{% block main %}
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h2><b>Brand Details</b></h2>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    {% for column in data["header"] %}
+                    <th>{{column}}</th>
+                    {% endfor %}
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data["rows"] %}
+                <tr>
+                    {% for cell in item %}
+                    <td>{{cell}}</td>
+                    {% endfor %}
+                    <td>
+                        <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons"></i></a>
+                        <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons"></i></a>
+                        <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -82,23 +82,21 @@ def login():
         cursor.callproc("check_user",[tempUseremail,tempPassword])
         temp=cursor.fetchall()
         connection.commit()
-        # app.logger.info(temp['response'])
-        app.logger.info("Value of respo")
-
-        app.logger.info(temp)
 
         if(temp[0]['response']=="yes"):
             session['loggedin'] = True
             session['username'] = tempUseremail
             g.user=tempUseremail
+            cursor.callproc("get_employee_by_email",[tempUseremail])
+            result = cursor.fetchone()
+            connection.commit()
+            session.update(result)
             flash("Logged in successfully")
             return redirect(url_for('home'))
         else:
             flash("Invalid Email or Password")
             session['username'] = None
             return render_template("login.html")
-        
-        # return redirect(url_for("index"))
         
     return render_template("login.html")
     
@@ -138,7 +136,6 @@ def register():
             return redirect(url_for('login'))
         if(temp[0]['response']==0):
             flash("Invalid Details")
-            # return redirect(url_for('login'))
     return render_template("register.html")
 
         
@@ -449,7 +446,7 @@ def detail_supplier(id):
         if request.method=="POST":
             pid_ = request.form['product']
             qty_ = request.form['quantity']
-            emp_id = 1 # TODO: take from session storage
+            emp_id = session["id"] # take empid from session storage
             cursor.callproc("order_new_product", args=[emp_id, id, pid_, qty_])
             result = cursor.fetchall()
             connection.commit()

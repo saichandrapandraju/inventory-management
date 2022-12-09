@@ -19,6 +19,7 @@ $(document).ready(function () {
 		var type = tr.children('td:eq(5)').text();
         var phone = tr.children('td:eq(6)').text();
         var ssn = tr.children('td:eq(7)').text();
+        var email = tr.children('td:eq(8)').text();
 
         // console.log(id, name, desc);
         $('#employeeId').val(id);
@@ -29,5 +30,6 @@ $(document).ready(function () {
 		$('#type').val(type);
         $('#phone').val(phone);
         $('#ssn').val(ssn);
+        $('#email').val(email);
       });
 });

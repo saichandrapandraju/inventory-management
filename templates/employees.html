@@ -38,6 +38,9 @@
             <br>
             Social Security Number:<br>
             <input type="text" name="ssn" placeholder="SSN" required>
+            <br>
+            Email:<br>
+            <input type="email" name="email" placeholder="email address" required>
             <br><br>
             <input type="submit" value="Submit">
         </form>
@@ -80,6 +83,9 @@
             <br>
             Social Security Number:<br>
             <input id="ssn" type="text" name="ssn" placeholder="SSN" readonly>
+            <br>
+            Email:<br>
+            <input id="email" type="email" name="email" placeholder="email address" readonly>
             <br><br>
             <input type="submit" value="update">
         </form>
@@ -87,11 +93,11 @@
     </div>
 
 </div>
-<div class="add-new" style="float: right; padding-right: 20rem; ">
+<div class="add-new" style="float: right; padding-right: 2rem; ">
     <a href="#newEmployee"><button type="button" class="btn btn-info add-new">
         <i class="fa fa-plus"></i> Add New</button></a>
 </div>
-<div class="container">
+<!-- <div class="container"> -->
     <div class="table-wrapper">
         <div class="title-row">
             <div class="title">
@@ -139,7 +145,7 @@
             </tbody>
         </table>
     </div>
-</div>
+<!-- </div> -->
 <script>
     function filter() {
       var input, filter, table, tr, td, i, txtValue;

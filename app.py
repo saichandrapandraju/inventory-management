@@ -41,7 +41,6 @@ def preprocess_analytics_date_tuples(data: list):
         for i in labels_:
             labels.append(i.strftime('%Y-%m-%d'))
         values = list(map(lambda x:list(x.values())[1], data))
-        print(labels)
         return {"labels":labels, "values":values}
     return {"labels":[], "values":[]}
 
@@ -130,7 +129,6 @@ def register():
         cursor.callproc("create_user", [firstName,lastName,address,phone,ssn,email_address,password])
         temp=cursor.fetchall()
         connection.commit()
-        app.logger.info(temp)
         if(temp[0]['response']==1):
             flash("Successfully registered")
             return redirect(url_for('login'))
@@ -166,7 +164,6 @@ def create_employee():
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
         cursor.callproc("all_employees")
         all_employees = cursor.fetchall()
         return render_template("employees.html", data=preprocess_tuples(all_employees))
@@ -184,7 +181,6 @@ def delete_employee(id):
         connection.commit()
         flash(result[0]['response'])
         del_cursor.close()
-        app.logger.info(result)
         return result[0]
     else:
         return redirect(url_for('login'))
@@ -202,7 +198,6 @@ def update_employee():
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
         cursor.callproc("all_employees")
         all_employees = cursor.fetchall()
         return render_template("employees.html", data=preprocess_tuples(all_employees))
@@ -222,7 +217,6 @@ def create_category():
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
         cursor.callproc("all_categories")
         all_categories = cursor.fetchall()
         return render_template("categories.html", data=preprocess_tuples(all_categories))
@@ -239,7 +233,7 @@ def delete_category(id):
         connection.commit()
         flash(result[0]['response'])
         del_cursor.close()
-        app.logger.info(result)
+        
         return result[0]
     else:
         return redirect(url_for('login'))
@@ -257,7 +251,7 @@ def update_category():
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
+            
         cursor.callproc("all_categories")
         all_categories = cursor.fetchall()
         return render_template("categories.html", data=preprocess_tuples(all_categories))
@@ -274,7 +268,7 @@ def create_brand():
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
+            
         cursor.callproc("all_brands")
         all_brands = cursor.fetchall()
         return render_template("brands.html", data=preprocess_tuples(all_brands))
@@ -290,7 +284,7 @@ def delete_brand(brand):
         connection.commit()
         flash(result[0]['response'])
         del_cursor.close()
-        app.logger.info(result)
+        
         return result[0]
     else:
         return redirect(url_for('login'))
@@ -307,7 +301,7 @@ def update_brand():
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
+            
         cursor.callproc("all_brands")
         all_brands = cursor.fetchall()
         return render_template("brands.html", data=preprocess_tuples(all_brands))
@@ -333,7 +327,7 @@ def create_product():
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
+            
             
         cursor.callproc("all_brands")
         all_brands = cursor.fetchall()
@@ -367,7 +361,7 @@ def delete_product(id):
         connection.commit()
         flash(result[0]['response'])
         del_cursor.close()
-        app.logger.info(result)
+        
         return result[0]
     else:
         return redirect(url_for('login'))
@@ -393,7 +387,7 @@ def update_product():
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
+            
             
         cursor.callproc("all_brands")
         all_brands = cursor.fetchall()
@@ -432,7 +426,7 @@ def create_supplier():
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
+            
         cursor.callproc("all_suppliers")
         all_suppliers = cursor.fetchall()
         return render_template("supplier.html", data=preprocess_tuples(all_suppliers))
@@ -451,7 +445,7 @@ def detail_supplier(id):
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
+            
         cursor.callproc("supplier_past_orders", args=[id])
         result_past_orders = cursor.fetchall()
         connection.commit()
@@ -480,7 +474,7 @@ def delete_supplier(id):
         connection.commit()
         flash(result[0]['response'])
         del_cursor.close()
-        app.logger.info(result)
+        
         return result[0]
     else:
         return redirect(url_for('login'))
@@ -495,8 +489,7 @@ def settle_supplier_order(id):
         connection.commit()
         flash(result[0]['response'])
         settle_cursor.close()
-        app.logger.info(result)
-        print(result)
+        
         return result[0]
     else:
         return redirect(url_for('login'))
@@ -511,8 +504,7 @@ def cancel_supplier_order(id):
         connection.commit()
         flash(result[0]['response'])
         cancel_cursor.close()
-        app.logger.info(result)
-        print(result)
+        
         return result[0]
     else:
         return redirect(url_for('login'))
@@ -530,7 +522,7 @@ def update_supplier():
             result = cursor.fetchall()
             connection.commit()
             flash(result[0]['response'])
-            app.logger.info(result)
+            
         cursor.callproc("all_suppliers")
         all_suppliers = cursor.fetchall()
         return render_template("supplier.html", data=preprocess_tuples(all_suppliers))

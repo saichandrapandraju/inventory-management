@@ -5,7 +5,6 @@
 {% endblock %}
 
 
-<!-- common(except table-title) for all html -->
 {% block main %}
 <h1 style="text-align: center;">Employee Management</h1>
 
@@ -14,7 +13,6 @@
     <div class="popup">
         <h3>Please fill out the Employee details</h3>
         <a class="close" href="#">&times;</a>
-        <!-- <button id="close" style="float: right;">X</button> -->
         <div class="content"></div>
         <form method="post" action="/employee">
             First Name:<br>
@@ -53,7 +51,6 @@
     <div class="popup">
         <h3>Please update the employee details</h3>
         <a class="close" href="#">&times;</a>
-        <!-- <button id="close" style="float: right;">X</button> -->
         <div class="content"></div>
         <form method="post" action="/updateEmployee">
             Id:<br>
@@ -107,17 +104,6 @@
                 <input type="text" class="add-new" style="width: 23rem;" id="searchInput" onkeyup="filter()" placeholder="Search by employee first name...">
             </div>
         </div>
-
-        <!-- <div class="table-title">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h2><b>Category Details</b></h2>
-                </div>
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
-                </div>
-            </div>
-        </div> -->
         <table class="table table-bordered" id="table">
             <thead>
                 <tr>
@@ -134,7 +120,6 @@
                     <td>{{cell}}</td>
                     {% endfor %}
                     <td>
-                        <!-- <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-plus"></i></a> -->
                         <a class="edit" href="#updateEmployee" title="Edit" data-toggle="tooltip"><i
                                 class="fa fa-pencil"></i></a>
                         <a id={{item[0]}} class="delete" title="Delete" data-toggle="tooltip"><i

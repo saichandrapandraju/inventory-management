@@ -7,3 +7,5 @@
 4. Edit the `db_creds.json` file with your database username and password.
 5. Start the flask app by running - `python app.py`
 6. This app will run at `http://localhost:8080/` by default. 
+
+link - https://colab.research.google.com/drive/18PmCQQoYhB2_PMwGF_QFwGh-g5RZ5OkU?usp=sharing
